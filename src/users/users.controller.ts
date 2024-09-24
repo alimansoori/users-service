@@ -1,5 +1,5 @@
 import { Controller, Logger } from "@nestjs/common";
-import { EventPattern, MessagePattern, Payload } from "@nestjs/microservices";
+import { Ctx, EventPattern, MessagePattern, NatsContext, Payload } from "@nestjs/microservices";
 import { CreateUserDto } from "./dto/CreateUser.dto";
 import { UsersService } from "./users.service";
 
@@ -12,7 +12,7 @@ export class UsersController {
     ) { }
 
     @MessagePattern({ cmd: 'createUser' })
-    createUser(@Payload() createUserDto: CreateUserDto) {
+    createUser(@Payload() createUserDto: CreateUserDto, @Ctx() contex: NatsContext) {
         return this.usersService.createUser(createUserDto)
     }
 
